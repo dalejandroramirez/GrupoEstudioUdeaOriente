@@ -1,24 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+
+import {
+  BrowserRouter,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
+
+import { Provider } from "react-redux";
+
+import { store } from "./store/index";
+import SignIn from "./users/SignIn";
+
+const SinHacer = ({ nombre }) => {
+  return <h1>Sin hacer la pagina {nombre}</h1>;
+};
+
+const Page404 = () => {
+  return <div> Esta pagina no existe</div>;
+};
+
+const UsuariosOutlet = () => {
+  return (
+    <>
+      <Outlet />
+    </>
+  );
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Provider store={store}>
+        <Routes>
+          <Route path="/" element={<SinHacer nombre="inicio" />} />
+
+          <Route path="/usuario" element={<UsuariosOutlet />} />
+          <Route path="/registro" element={<SinHacer nombre="registro" />} />
+          <Route path="/login" element={<SignIn />} />
+          <Route
+            path=":contenido/:id"
+            element={<SinHacer nombre="contenido" />}
+          />
+          <Route path="/*" element={<Page404 />} />
+        </Routes>
+      </Provider>
+    </BrowserRouter>
   );
 }
 
